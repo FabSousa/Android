@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/Server"
+        android:layout_width="match_parent"
+        android:layout_height="118dp"
+        android:layout_marginTop="80sp"
+        android:text="SERVER"
+        android:textAlignment="center"
+        android:textSize="70sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/User"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="80sp"
+        android:layout_marginVertical="15sp"
+        android:ems="10"
+        android:hint="User"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:paddingHorizontal="0sp" />
+
+    <EditText
+        android:id="@+id/Password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="80sp"
+        android:layout_marginVertical="15sp"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:paddingHorizontal="0sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginVertical="30sp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/LoginButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80sp"
+            android:layout_marginRight="15sp"
+            android:layout_weight="1"
+            android:onClick="login"
+            android:text="Login" />
+
+        <Button
+            android:id="@+id/ClearButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15sp"
+            android:layout_marginRight="80sp"
+            android:layout_weight="1"
+            android:onClick="clear"
+            android:text="Clear" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/Result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="80sp"
+        android:layout_marginTop="50sp"
+        android:text="Resultado"
+        android:textAlignment="center"
+        android:textSize="48sp" />
+
+</LinearLayout>
