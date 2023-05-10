@@ -11,7 +11,6 @@
         android:layout_width="301dp"
         android:layout_height="73dp"
         android:layout_marginBottom="15dp"
-        android:text="Maior/Menor"
         android:textAlignment="center"
         android:textSize="48sp"
         app:layout_constraintBottom_toTopOf="@+id/chancesText"

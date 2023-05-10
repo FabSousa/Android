@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         submitButton.setOnClickListener() {
             var bundle = Bundle()
-            bundle.putString("num", number.toString())
+            bundle.putString("num", "O número era " + number.toString())
 
             if (chances > 0){
                 if(input.text.toString().toInt() > number)
@@ -39,11 +39,11 @@ class MainActivity : AppCompatActivity() {
                     bundle.putString("res", "Acertou")
                     intent.putExtras(bundle)
                     startActivity(intent)
+                }else if (chances <= 0){
+                    bundle.putString("res", "Errou")
+                    intent.putExtras(bundle)
+                    startActivity(intent)
                 }
-            }else{
-                bundle.putString("res", "Errou")
-                intent.putExtras(bundle)
-                startActivity(intent)
             }
         }
 
