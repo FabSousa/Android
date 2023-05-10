@@ -1,0 +1,256 @@
+Fábio Fernando de Sousa
+RM:89291
+3SIF
+
+activity_main.xml ---------------------------------------------------------------------
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/hintText"
+        android:layout_width="301dp"
+        android:layout_height="73dp"
+        android:layout_marginBottom="15dp"
+        android:textAlignment="center"
+        android:textSize="48sp"
+        app:layout_constraintBottom_toTopOf="@+id/chancesText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/submitButton" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="326dp"
+        android:layout_height="117dp"
+        android:layout_marginBottom="16dp"
+        android:text="Adivinhe o número no intervaulo (1, 100)"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@+id/input"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/chancesText"
+        android:layout_width="308dp"
+        android:layout_height="115dp"
+        android:layout_marginBottom="24dp"
+        android:text="Tentativas restantes: 5"
+        android:textAlignment="center"
+        android:textSize="48sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hintText" />
+
+    <EditText
+        android:id="@+id/input"
+        android:layout_width="260dp"
+        android:layout_height="69dp"
+        android:layout_marginBottom="16dp"
+        android:ems="10"
+        android:inputType="number"
+        android:text="0"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@+id/submitButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="146dp"
+        android:layout_height="74dp"
+        android:layout_marginBottom="16dp"
+        android:text="Confirmar"
+        app:layout_constraintBottom_toTopOf="@+id/hintText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+MainActivity.kt -----------------------------------------------------------------------
+
+package com.fiap.jogodeadivinhacao
+
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import kotlin.random.Random
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val intent = Intent(this, ResultActivity::class.java)
+
+        val input = findViewById<EditText>(R.id.input)
+        val submitButton = findViewById<Button>(R.id.submitButton)
+        val hintText = findViewById<TextView>(R.id.hintText)
+        val chancesText = findViewById<TextView>(R.id.chancesText)
+
+        val number = Random.nextInt(1, 100)
+        var chances = 5;
+
+        submitButton.setOnClickListener() {
+            var bundle = Bundle()
+            bundle.putString("num", "O número era " + number.toString())
+
+            if (chances > 0){
+                if(input.text.toString().toInt() > number)
+                    hintText.text = "Maior"
+                else
+                    hintText.text = "Menor"
+                chances --
+                chancesText.text = "Tentativas restantes: " + chances
+
+                if(input.text.toString().toInt() == number){
+                    bundle.putString("res", "Acertou")
+                    intent.putExtras(bundle)
+                    startActivity(intent)
+                }else if (chances <= 0){
+                    bundle.putString("res", "Errou")
+                    intent.putExtras(bundle)
+                    startActivity(intent)
+                }
+            }
+        }
+
+    }
+}
+
+
+
+activity_result.xml ---------------------------------------------------------------------
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/numberText"
+        android:layout_width="305dp"
+        android:layout_height="133dp"
+        android:layout_marginTop="90dp"
+        android:layout_marginBottom="491dp"
+        android:text="O número era: 0"
+        android:textAlignment="center"
+        android:textSize="48sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.546"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/resultText" />
+
+    <TextView
+        android:id="@+id/resultText"
+        android:layout_width="360dp"
+        android:layout_height="61dp"
+        android:layout_marginTop="200dp"
+        android:text="Acertou/Errou"
+        android:textAlignment="center"
+        android:textSize="48sp"
+        app:layout_constraintBottom_toTopOf="@+id/numberText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/returnButton"
+        android:layout_width="240dp"
+        android:layout_height="89dp"
+        android:layout_marginTop="79dp"
+        android:layout_marginBottom="236dp"
+        android:text="Voltar"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/numberText" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+ResultActivity.kt -----------------------------------------------------------------------
+
+package com.fiap.jogodeadivinhacao
+
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.TextView
+
+class ResultActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_result)
+
+        val bundle = intent.extras
+        val resultText = findViewById<TextView>(R.id.resultText)
+        val numberText = findViewById<TextView>(R.id.numberText)
+        val returnButton = findViewById<Button>(R.id.returnButton)
+
+        resultText.text = bundle!!.getString("res")
+        numberText.text = bundle.getString("num")
+
+        returnButton.setOnClickListener() {
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+
+    }
+}
+
+
+AndroidManifest.xml ------------------------------------------------------------------
+
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.fiap.jogodeadivinhacao">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.JogoDeAdivinhacao"
+        tools:targetApi="31">
+        <activity
+            android:name=".ResultActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
