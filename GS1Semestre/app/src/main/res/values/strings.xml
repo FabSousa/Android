@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">GS 1 Semestre</string>
+    <string name="galeria_de_fotos">GALERIA DE FOTOS:</string>
+    <string name="CulturaSoja">Soja</string>
+    <string name="CulturaMilho">Milho</string>
+    <string name="CulturaTrigo">Trigo</string>
+</resources>
