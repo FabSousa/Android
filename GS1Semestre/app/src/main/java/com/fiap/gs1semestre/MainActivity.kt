@@ -4,8 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import com.fiap.gs1semestre.model.PhotoModel
-import com.fiap.gs1semestre.repository.PhotoRepository
+import com.fiap.gs1semestre.pages.GaleryActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         val milhoButton = findViewById<Button>(R.id.milhoButton)
         val sojaButton = findViewById<Button>(R.id.sojaButton)
 
-        var bundle = Bundle()
+        val bundle = Bundle()
 
         trigoButton.setOnClickListener(){
             bundle.putString("type", "Trigo")

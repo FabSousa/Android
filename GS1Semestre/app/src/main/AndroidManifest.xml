@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".GaleryActivity"
+            android:name=".pages.GaleryActivity"
             android:exported="false" />
     </application>
 

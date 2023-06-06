@@ -1,5 +1,10 @@
 package com.fiap.gs1semestre.model
 
-class PhotoModel(id: Int, cultura: String, producao: Double) {
+data class PhotoModel(
 
-}
+    val id: Int,
+    val img: Int,
+    val cultura: String,
+    val detaPlantio: String,
+
+    )

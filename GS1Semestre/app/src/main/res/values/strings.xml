@@ -4,4 +4,9 @@
     <string name="CulturaSoja">Soja</string>
     <string name="CulturaMilho">Milho</string>
     <string name="CulturaTrigo">Trigo</string>
+    <string name="voltar">Voltar</string>
+    <string name="photo">photo</string>
+    <string name="id">ID</string>
+    <string name="cultura">CULTURA</string>
+    <string name="data">DATA</string>
 </resources>
