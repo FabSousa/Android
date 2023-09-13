@@ -1,8 +1,8 @@
 package com.example.homeacademy
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.content.Intent
 import com.example.homeacademy.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
