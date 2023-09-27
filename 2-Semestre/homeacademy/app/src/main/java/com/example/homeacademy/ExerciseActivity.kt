@@ -1,5 +1,7 @@
 package com.example.homeacademy
 
+import android.app.Dialog
+import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -13,10 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import java.util.*
 import kotlin.collections.ArrayList
 import com.example.homeacademy.databinding.ActivityExerciseBinding
+import com.example.homeacademy.databinding.DialogCustomBackConfirmationBinding
 
 class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var restTimer: CountDownTimer? = null
     private var restProgress = 0
+    private var restTimerDuration: Long = 10
     private var exerciseTimer: CountDownTimer? = null
     private var exerciseProgress = 0
     private var exerciseTimerDuration:Long = 30
@@ -37,9 +41,16 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         if (supportActionBar != null){
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
+
+
+
+
         binding?.toolbarExercise?.setNavigationOnClickListener {
-            onBackPressed()
+            customDialogForBackButton()
         }
+
+
+
 
         tts = TextToSpeech(this, this)
         exerciseList = Constants.defaultExerciseList()
@@ -77,7 +88,9 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private fun setRestProgressBar() {
         binding?.progressBar?.progress = restProgress
-        restTimer = object : CountDownTimer(10000, 1000) {
+
+
+        restTimer = object : CountDownTimer(restTimerDuration * 1000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 restProgress++
                 binding?.progressBar?.progress = 10 - restProgress
@@ -86,6 +99,8 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
             override fun onFinish() {
                 currentExercisePosition++
+                exerciseList!![currentExercisePosition].setIsSelected(true)
+                exerciseAdapter!!.notifyDataSetChanged()
                 setupExerciseView()
             }
         }.start()
@@ -113,6 +128,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     }
     private fun setExerciseProgressBar() {
         binding?.progressBarExercise?.progress = exerciseProgress
+
         exerciseTimer = object : CountDownTimer(exerciseTimerDuration * 1000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 exerciseProgress++
@@ -120,18 +136,24 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 binding?.tvTimerExercise?.text = (exerciseTimerDuration.toInt() - exerciseProgress).toString()
             }
 
+
+
             override fun onFinish() {
                 if (currentExercisePosition < exerciseList?.size!! - 1) {
+                    exerciseList!![currentExercisePosition].setIsSelected(false)
+                    exerciseList!![currentExercisePosition].setIsCompleted(true)
+                    exerciseAdapter!!.notifyDataSetChanged()
                     setupRestView()
                 } else {
-                    Toast.makeText(
-                        this@ExerciseActivity,
-                        "Congratulations! You have completed the 7 minutes workout.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    finish()
+                    val intent = Intent(this@ExerciseActivity,FinishActivity::class.java)
+                    startActivity(intent)
                 }
             }
         }.start()
+
+
+
     }
 
     public override fun onDestroy() {
@@ -145,6 +167,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             tts!!.shutdown()
         }
 
+
         if(player != null){
             player!!.stop()
         }
@@ -156,7 +179,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
-            val result = tts?.setLanguage(Locale.TRADITIONAL_CHINESE)
+            val result = tts?.setLanguage(Locale.US)
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Log.e("TTS", "The Language specified is not supported!")
             }
@@ -174,4 +197,29 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         exerciseAdapter = ExerciseStatusAdapter(exerciseList!!)
         binding?.rvExerciseStatus?.adapter = exerciseAdapter
     }
+
+
+
+    override fun onBackPressed() {
+        customDialogForBackButton()
+    }
+
+
+
+    private fun customDialogForBackButton() {
+        val customDialog = Dialog(this)
+        val dialogBinding = DialogCustomBackConfirmationBinding.inflate(layoutInflater)
+        customDialog.setContentView(dialogBinding.root)
+        customDialog.setCanceledOnTouchOutside(false)
+        dialogBinding.tvYes.setOnClickListener {
+            this@ExerciseActivity.finish()
+            customDialog.dismiss()
+        }
+        dialogBinding.tvNo.setOnClickListener {
+            customDialog.dismiss()
+        }
+        customDialog.show()
+    }
+
+
 }
