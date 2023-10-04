@@ -220,6 +220,4 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         }
         customDialog.show()
     }
-
-
 }
