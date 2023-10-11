@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Checkpoint02</string>
+    <string name="rgb">RGB</string>
+    <string name="picker">Picker</string>
+    <string name="set">Set</string>
+    <string name="back">Back</string>
+</resources>
