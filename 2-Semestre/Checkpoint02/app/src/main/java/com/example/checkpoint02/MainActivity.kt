@@ -3,6 +3,7 @@ package com.example.checkpoint02
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import com.example.checkpoint02.databinding.ActivityMainBinding
 
@@ -24,13 +25,29 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        var color = "#00ff00"
-
         binding?.setButton?.setOnClickListener {
             val intent = Intent(this, ResultActivity::class.java)
-            intent.putExtra("color", color)
+            intent.putExtra("color", getColor())
             startActivity(intent)
         }
+    }
+
+    private fun getColor(): String {
+        var inputRed = binding?.inputRed?.text.toString()
+        var inputGreen = binding?.inputGreen?.text.toString()
+        var inputBlue = binding?.inputBlue?.text.toString()
+
+        if (inputRed.isEmpty()){
+            inputRed = "00"
+        }
+        if (inputGreen.isEmpty()){
+            inputGreen = "00"
+        }
+        if (inputBlue.isEmpty()){
+            inputBlue = "00"
+        }
+
+        return "#$inputRed$inputGreen$inputBlue"
     }
 
     private fun enableRGB(){
