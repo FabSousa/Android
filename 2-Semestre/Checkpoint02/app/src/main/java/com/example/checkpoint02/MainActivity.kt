@@ -6,33 +6,53 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.example.checkpoint02.databinding.ActivityMainBinding
+import yuku.ambilwarna.AmbilWarnaDialog;
 
 class MainActivity : AppCompatActivity() {
     private var binding: ActivityMainBinding? = null
 
+    private var defaultColor = 8421504
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
-        enableRGB()
+        var option = enableRGB()
         binding?.colorOptions?.setOnCheckedChangeListener { _, checkedId: Int ->
             if (checkedId == binding?.colorRGB?.id) {
-                enableRGB()
+                option = enableRGB()
             } else {
-                enablePicker()
+                option = enablePicker()
             }
         }
 
+        binding?.colorPickerSelector?.setOnClickListener(
+            object : View.OnClickListener {
+                override fun onClick(v: View?) {
+                    openColorPickerDialogue()
+                }
+            })
+
 
         binding?.setButton?.setOnClickListener {
+            var color : String;
+
+            if(option == "RGB"){
+                color = getColorRGB()
+            }else{
+                color = "#${Integer.toHexString(defaultColor)}"
+            }
+
+            Log.d("cor", color)
+            Log.d("cordef", defaultColor.toString())
+
             val intent = Intent(this, ResultActivity::class.java)
-            intent.putExtra("color", getColor())
+            intent.putExtra("color", color)
             startActivity(intent)
         }
     }
 
-    private fun getColor(): String {
+    private fun getColorRGB(): String {
         var inputRed = binding?.inputRed?.text.toString()
         var inputGreen = binding?.inputGreen?.text.toString()
         var inputBlue = binding?.inputBlue?.text.toString()
@@ -50,7 +70,20 @@ class MainActivity : AppCompatActivity() {
         return "#$inputRed$inputGreen$inputBlue"
     }
 
-    private fun enableRGB(){
+    fun openColorPickerDialogue() {
+        val colorPickerDialogue = AmbilWarnaDialog(this, defaultColor,
+            object : AmbilWarnaDialog.OnAmbilWarnaListener {
+                override fun onCancel(dialog: AmbilWarnaDialog?) {}
+
+                override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
+                    defaultColor = color
+                    binding?.colorPickerSelector?.setBackgroundColor(defaultColor)
+                }
+            })
+        colorPickerDialogue.show()
+    }
+
+    private fun enableRGB(): String {
         binding?.iconRed?.visibility = View.VISIBLE
         binding?.inputRed?.visibility = View.VISIBLE
         binding?.iconGreen?.visibility = View.VISIBLE
@@ -58,11 +91,13 @@ class MainActivity : AppCompatActivity() {
         binding?.iconBlue?.visibility = View.VISIBLE
         binding?.inputBlue?.visibility = View.VISIBLE
 
+        binding?.colorPickerSelector?.visibility = View.GONE
 
+        return "RGB"
     }
 
-    private fun enablePicker(){
-
+    private fun enablePicker(): String {
+        binding?.colorPickerSelector?.visibility = View.VISIBLE
 
         binding?.iconRed?.visibility = View.GONE
         binding?.inputRed?.visibility = View.GONE
@@ -70,5 +105,7 @@ class MainActivity : AppCompatActivity() {
         binding?.inputGreen?.visibility = View.GONE
         binding?.iconBlue?.visibility = View.GONE
         binding?.inputBlue?.visibility = View.GONE
+
+        return "picker"
     }
 }
