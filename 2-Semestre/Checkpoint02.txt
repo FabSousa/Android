@@ -1,0 +1,329 @@
+
+Fábio Fernando de Sousa - 3SIF - RM89291
+Para o colorpicker foi usada a api 'com.github.yukuku:ambilwarna:2.0.1', para sua implementação foi criado um
+listener no botão do colorpicker que define uma função onCancel() vazia e onOk() que modifica a variavel cor usada
+tanto para definir a cor do botão quanto para passa-la para a tela de resultado, após definir estas duas funções
+abrimos o colorpicker através da função colorPickerDialogue.show()
+
+=--------------- activity_main.xml =---------------
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/InputBlue"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <RadioGroup
+        android:id="@+id/colorOptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        android:background="@drawable/drawable_radio_group_tab_background"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="10dp">
+
+        <RadioButton
+            android:id="@+id/colorRGB"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="0.50"
+            android:background="@drawable/drawable_units_tab_selector"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="@string/rgb"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/colorPicker"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="0.50"
+            android:background="@drawable/drawable_units_tab_selector"
+            android:button="@null"
+            android:checked="false"
+            android:gravity="center"
+            android:text="@string/picker"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </RadioGroup>
+
+    <FrameLayout
+        android:id="@+id/iconRed"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="35dp"
+        android:background="@drawable/item_circular_red"
+        app:layout_constraintBottom_toTopOf="@+id/iconGreen"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/colorOptions">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/iconGreen"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="35dp"
+        android:background="@drawable/item_circular_green"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iconRed">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/iconBlue"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="35dp"
+        android:background="@drawable/item_circular_blue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iconGreen">
+
+    </FrameLayout>
+
+    <EditText
+        android:id="@+id/inputRed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="120dp"
+        android:layout_marginEnd="54dp"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iconRed"
+        app:layout_constraintTop_toBottomOf="@+id/colorOptions"
+        />
+
+    <EditText
+        android:id="@+id/inputGreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="56dp"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/iconGreen"
+        app:layout_constraintTop_toBottomOf="@+id/inputRed" />
+
+    <EditText
+        android:id="@+id/inputBlue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="56dp"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iconBlue"
+        app:layout_constraintTop_toBottomOf="@+id/inputGreen" />
+
+    <Button
+        android:id="@+id/colorPickerSelector"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:theme="@drawable/circular_shape"
+        android:backgroundTint="#808080"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="585dp" />
+
+    <Button
+        android:id="@+id/setButton"
+        android:layout_width="187dp"
+        android:layout_height="68dp"
+        android:layout_marginBottom="70dp"
+        android:text="@string/set"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+=--------------- activity_result.xml =---------------
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="187dp"
+        android:layout_height="68dp"
+        android:layout_marginBottom="70dp"
+        android:text="@string/back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+=--------------- MainActivity.kt =---------------
+
+package com.example.checkpoint02
+
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.util.Log
+import android.view.View
+import com.example.checkpoint02.databinding.ActivityMainBinding
+import yuku.ambilwarna.AmbilWarnaDialog;
+
+class MainActivity : AppCompatActivity() {
+    private var binding: ActivityMainBinding? = null
+
+    private var defaultColor = 8421504
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding?.root)
+
+        var option = enableRGB()
+        binding?.colorOptions?.setOnCheckedChangeListener { _, checkedId: Int ->
+            if (checkedId == binding?.colorRGB?.id) {
+                option = enableRGB()
+            } else {
+                option = enablePicker()
+            }
+        }
+
+        binding?.colorPickerSelector?.setOnClickListener(
+            object : View.OnClickListener {
+                override fun onClick(v: View?) {
+                    openColorPickerDialogue()
+                }
+            })
+
+
+        binding?.setButton?.setOnClickListener {
+            var color : String;
+
+            if(option == "RGB"){
+                color = getColorRGB()
+            }else{
+                color = "#${Integer.toHexString(defaultColor)}"
+            }
+
+            val intent = Intent(this, ResultActivity::class.java)
+            intent.putExtra("color", color)
+            startActivity(intent)
+        }
+    }
+
+    private fun getColorRGB(): String {
+        var inputRed = binding?.inputRed?.text.toString()
+        var inputGreen = binding?.inputGreen?.text.toString()
+        var inputBlue = binding?.inputBlue?.text.toString()
+
+        if (inputRed.isEmpty()){
+            inputRed = "00"
+        }
+        if (inputGreen.isEmpty()){
+            inputGreen = "00"
+        }
+        if (inputBlue.isEmpty()){
+            inputBlue = "00"
+        }
+
+        return "#$inputRed$inputGreen$inputBlue"
+    }
+
+    fun openColorPickerDialogue() {
+        val colorPickerDialogue = AmbilWarnaDialog(this, defaultColor,
+            object : AmbilWarnaDialog.OnAmbilWarnaListener {
+                override fun onCancel(dialog: AmbilWarnaDialog?) {}
+
+                override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
+                    defaultColor = color
+                    binding?.colorPickerSelector?.setBackgroundColor(defaultColor)
+                }
+            })
+        colorPickerDialogue.show()
+    }
+
+    private fun enableRGB(): String {
+        binding?.iconRed?.visibility = View.VISIBLE
+        binding?.inputRed?.visibility = View.VISIBLE
+        binding?.iconGreen?.visibility = View.VISIBLE
+        binding?.inputGreen?.visibility = View.VISIBLE
+        binding?.iconBlue?.visibility = View.VISIBLE
+        binding?.inputBlue?.visibility = View.VISIBLE
+
+        binding?.colorPickerSelector?.visibility = View.GONE
+
+        return "RGB"
+    }
+
+    private fun enablePicker(): String {
+        binding?.colorPickerSelector?.visibility = View.VISIBLE
+
+        binding?.iconRed?.visibility = View.GONE
+        binding?.inputRed?.visibility = View.GONE
+        binding?.iconGreen?.visibility = View.GONE
+        binding?.inputGreen?.visibility = View.GONE
+        binding?.iconBlue?.visibility = View.GONE
+        binding?.inputBlue?.visibility = View.GONE
+
+        return "picker"
+    }
+}
+
+
+=--------------- ResultActivity.kt =---------------
+
+package com.example.checkpoint02
+
+import android.content.Intent
+import android.graphics.Color
+import android.os.Bundle
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import com.example.checkpoint02.databinding.ActivityResultBinding
+
+class ResultActivity  : AppCompatActivity() {
+    private  var binding: ActivityResultBinding? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityResultBinding.inflate(layoutInflater)
+        setContentView(binding?.root)
+
+        try{
+            binding?.root?.setBackgroundColor(Color.parseColor(intent.getStringExtra("color")))
+        }catch (e : IllegalArgumentException){
+            Log.d("Unknown color", intent.getStringExtra("color")!!)
+            binding?.root?.setBackgroundColor(0)
+        }
+
+        binding?.backButton?.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+    }
+}

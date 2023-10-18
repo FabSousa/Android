@@ -43,9 +43,6 @@ class MainActivity : AppCompatActivity() {
                 color = "#${Integer.toHexString(defaultColor)}"
             }
 
-            Log.d("cor", color)
-            Log.d("cordef", defaultColor.toString())
-
             val intent = Intent(this, ResultActivity::class.java)
             intent.putExtra("color", color)
             startActivity(intent)
