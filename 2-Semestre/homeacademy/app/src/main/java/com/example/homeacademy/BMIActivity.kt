@@ -9,8 +9,6 @@ import java.math.RoundingMode
 import com.example.homeacademy.databinding.ActivityBmiactivityBinding
 
 class BMIActivity : AppCompatActivity() {
-
-
     companion object {
         private const val METRIC_UNITS_VIEW = "METRIC_UNIT_VIEW"
         private const val US_UNITS_VIEW = "US_UNIT_VIEW"
@@ -32,6 +30,10 @@ class BMIActivity : AppCompatActivity() {
             onBackPressed()
         }
 
+
+        binding?.btnCalculateUnits?.setOnClickListener {
+
+        }
 
 
         makeVisibleMetricUnitsView()
